@@ -1,4 +1,7 @@
-Flask
-Flask-Session
-psycopg2-binary
-SQLAlchemy
+flask
+flask-Session
+psycopg2
+sqlalchemy
+sqlalchemy.orm
+requests
+json

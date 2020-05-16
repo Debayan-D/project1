@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Results</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <style>
+        .banner {
+            color: yellow;
+        }
+        .on:hover{
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron jumbotron-fluid text-center bg-dark" style="margin-bottom:0">
+  <h1 class="banner">Book Information</h1>
+</div>
+<nav class="navbar navbar-expand-sm bg-light navbar-dark">
+    <ul class="nav nav-tabs ">
+      <li class="nav-item">
+        <a class="nav-link on" href={{ url_for('index') }} style="color: black;">Home</a>
+      <li class="nav-item">
+        <a class="nav-link active on" href={{ url_for('search') }} style="color: black;">Search</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle on" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="color:black;">User</a>
+        <div class="dropdown-menu">
+        {% if session['logged_in'] == True %}
+        <a class="dropdown-item disabled" tabindex = "-1" aria-disabled="true">Logged in as: {{ session['username'] }}</a>
+        <div class="dropdown-divider"></div>
+          <a class="dropdown-item on" href={{ url_for('logout') }} style="color: black;">Logout</a>
+     {% else %}
+        <a class="dropdown-item on" href={{ url_for('login') }} style="color: black;">Login</a>
+     {% endif %}
+        <a class="dropdown-item on" href={{ url_for('register') }} style="color: black;">Register</a>
+    </ul>
+  </div>  
+</nav>
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-8">
+<body>
+      {% if search %}
+      <h2>Book information for ISBN: {{ message }}</h2>
+        <ul>
+          {% for result in results %}
+             <li>{{ result }}</li>
+          {% endfor %}
+        </ul>
+      <ul>
+             <li>Title: {{ book_result[0][2] }}</li>
+             <li>Author: {{ book_result[0][3] }}</li>
+             <li>Year: {{ book_result[0][4] }}</li>
+      </ul>
+      <h5>The average rating on Goodreads is: {{ good_reads }}</h5>
+      <br>
+      <h6>{{ reviews }}</h6>
+      <ul>
+            {% for book_review in book_reviews %}
+             <li>Review from {{ book_review[0] }}: {{ book_review[1] }} - {{book_review[2] }} </li>
+          {% endfor %}
+        </ul>
+      <br>
+      <form  method="post">
+        <div class="form-group">
+            Rating (between 1 and 5):  <input type="number" name="rating" min="1" max="5" default="0" required>
+            <input class="form-control" type="text" name="comment" placeholder="Your comments..." required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+      {% endif %}
+      {% if not search %}
+      <h2>You are not logged in!</h2>
+      <h5>Please login first.</h5>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+<div class="jumbotron jumbotron-fluid text-center bg-dark" style="margin-bottom:0">
+  <p class="banner">&copy; 2020 Debayan Dey</p>
+</div>
+        </body>
+        </html>
+
